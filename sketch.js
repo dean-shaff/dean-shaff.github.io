@@ -57,7 +57,7 @@ function draw() {
 	var diffX = mouseX - mouse_prev_abs[0] ; 
 	var diffY = mouseY - mouse_prev_abs[1] ; 
 	var speed = Math.sqrt(Math.pow(diffX,2) + Math.pow(diffY,2)) ; 
-	console.log(speed);
+	// console.log(speed);
 	var mouseX_next = mouse_prev[0] + diffX*dragFactor ; 
 	var mouseY_next = mouse_prev[1] + diffY*dragFactor ; 
 	// mouse = calcClosestGridPoint(mouseX, mouseY) ;
