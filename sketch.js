@@ -39,7 +39,7 @@ function draw() {
 	textSize(36);
 	fill(0,0,0) ;
 	textAlign(CENTER, CENTER) ; 
-	text("Dean's Website!", width/2, height/2) ; 
+	// text("Dean's Website!", width/2, height/2) ; 
 	
 	var mouse_prev = mouse ;
 	var mouse_prev_abs = mouse_abs ; 
