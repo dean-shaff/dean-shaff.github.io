@@ -14,7 +14,10 @@ var pause = false;
 var rotate = true ;
 var mY = 0 ; 
 var mX = 0 ; 
-
+var CoM ; 
+var CoM_rotate ; 
+var delayCoM = 500 ;
+var counter = 0 ;
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);//,WEBGL) ; 
@@ -32,7 +35,10 @@ function setup() {
    		var y_temp = createVector(y.x,y.y,y.z) ; 
    		sol_vec.push(y_temp) ; 
  	}
- 
+	CoM = calcCenterOfMass(sol_vec);	
+	var angleX = map(mY, 0, width, 0,2*PI);
+	var angleY = map(mX, 0, height,0,2*PI);
+	CoM_rotate = help.rotateY(help.rotateX(CoM, angleX),angleY)
  	// console.log(sol_vec[sol_vec.length - 1]) ;
  	// console.log(sol_vec[sol_vec.length - 2]) ;
  	background(100);
@@ -56,30 +62,56 @@ function draw() {
 		strokeWeight(1);
 		background(0,0,0);
 		push() ; 
-		 
+		CoM = calcCenterOfMass(sol_vec);	
+		var angleX = map(mY, 0, width, 0,2*PI);
+		var angleY = map(mX, 0, height,0,2*PI);
+		CoM_rotate = help.rotateY(help.rotateX(CoM, angleX),angleY)
+		// if (counter == delayCoM){
+		// 	CoM = calcCenterOfMass(sol_vec);	
+		// 	var angleX = map(mY, 0, width, 0,2*PI);
+		// 	var angleY = map(mX, 0, height,0,2*PI);
+		// 	CoM_rotate = help.rotateY(help.rotateX(CoM, angleX),angleY)
+		// } else if (counter > delayCoM){
+		// 	counter = 0 ; 
+		// }
+		// translate(tranX+(CoM.x/factor), tranY + (CoM.y/factor)) ; 
 		translate(tranX, tranY) ; 
 			for (var i = 1; i < sol_vec.length; i++){
-				var angleX = map(mY, 0, width, 0,2*PI);
-				var angleY = map(mX, 0, height,0,2*PI);
 				var temp = sol_vec[i] ;
 				var tempm1 = sol_vec[i-1]; 
 				var temp1 = help.rotateY(help.rotateX(temp,angleX),angleY);
 				var tempm11 = help.rotateY(help.rotateX(tempm1,angleX),angleY);
+
 				//sol_vec.set(i, temp1);
 
 				var c_z = map(temp1.z,-20,40, 60,90);
 
 				stroke(c_z,100,100);
-				line(temp1.x/factor, temp1.y/factor, tempm11.x/factor, tempm11.y/factor);
+				line((temp1.x - CoM_rotate.x)/factor, (temp1.y - CoM_rotate.y)/factor, (tempm11.x - CoM_rotate.x)/factor, (tempm11.y - CoM_rotate.y)/factor);
+				// line((temp1.x)/factor, (temp1.y)/factor, (tempm11.x)/factor, (tempm11.y)/factor);
 					// line(ym1.x/factor, ym1.y/factor, y.x/factor, y.y/factor) ; 
 			}
 		
 		
 		pop(); 
-		
+		counter += 1; 
 		// console.log(ym1)
 		// console.log(y)
 	}
+}
+
+function calcCenterOfMass(vector){
+	//assume vector is an array of processing Pvectors 
+	var mean_x = 0.0 ;
+	var mean_y = 0.0 ;
+	var mean_z = 0.0 ; 
+	for (var i =0; i<vector.length; i++){
+		mean_x += vector[i].x;
+		mean_y += vector[i].y; 
+		mean_z += vector[i].z; 
+	}
+	var CoM =  createVector(mean_x/vector.length , mean_y/vector.length, mean_z/vector.length);
+	return CoM ;
 }
 
 function f(y_n){
@@ -114,37 +146,26 @@ function mouseDragged(){
 	mY = mouseY - tranY; 
 }
 
+// $("#dean-button").click(function(){
+// 	console.log("Button clicked!")
+// 	pause = ! pause ;		
+// });
+function LorentzAttractor() {
 
-function HelperFunctions() {
+	this.pause = function(){
+		console.log("function called!");
+		pause = !pause;
+	}
 
-	this.rotateX = function(array, angle){
-		var x = array.x; var y = array.y; var z = array.z ; 
-		var x_new = x ; 
-		var y_new  = cos(angle)*y + sin(angle)*z ; 
-		var z_new  = -sin(angle)*y + cos(angle)*z ; 
-		var fin = createVector(x_new,y_new,z_new); 
-		return fin ;
-    }
-    
-    this.rotateY = function(array, angle){
-		var x = array.x; var y = array.y; var z = array.z ;  
-		var x_new = cos(angle)*x - sin(angle)*z ; 
-		var y_new = y ; 
-		var z_new = sin(angle)*x + cos(angle)*z ; 
-		var fin = createVector(x_new,y_new,z_new); 
-		return fin ;
-    }
-    
-    this.rotateZ = function(array, angle){
-		var x = array.x; var y = array.y; var z = array.z ; 
-		var x_new = cos(angle)*x + sin(angle)*y  ; 
-		var y_new = cos(angle)*y - sin(angle)*x ; 
-		var z_new = y ; 
-		var fin = createVector(x_new,y_new,z_new); 
-		return fin ;
-    }
+	this.zoomIn = function(){
+		factor -= 0.02 ; 
+	}
 
+	this.zoomOut = function() {
+		factor += 0.02 ; 
+	}
 }
+
 
 
 
