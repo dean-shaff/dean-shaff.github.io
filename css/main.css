@@ -1,3 +1,22 @@
 body{
 	background-color:black;
 }
+.row{
+  margin-top: 10px;
+  margin-bottom: 0px
+}
+.container-dean{
+	background-color:red;
+	float: right;
+	overflow: visible;
+	position: relative;
+	z-index: 1000;
+	height: 0px;
+	width: 100%;
+}
+
+.well-dean{
+	background-color: #AFB0AB;
+	height: 80px;
+
+}

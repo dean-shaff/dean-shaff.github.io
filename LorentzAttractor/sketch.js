@@ -2,9 +2,9 @@ var sol_vec = [] ;
 var help = new HelperFunctions() ; 
 var y; 
 var ym1 ; 
-var sigma = 10.0; 
-var rho = 28.0 ; 
-var beta = 8.0/3.0 ; 
+var sigma = 10.0; var sigma_init = 10.0 ; 
+var rho = 28.0 ; var rho_init = 28.0 ; 
+var beta = 8.0/3.0 ; var beta_init = 8.0/3.0; 
 var h = 0.007; 
 var factor = 0.11 ; 
 var upto = 700 ; 
@@ -18,6 +18,7 @@ var CoM ;
 var CoM_rotate ; 
 var delayCoM = 500 ;
 var counter = 0 ;
+var y_init = [0.1, 0.1, 0.0] ; 
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);//,WEBGL) ; 
@@ -27,7 +28,7 @@ function setup() {
 	colorMode(HSB,100)
 	tranX = width/2;
 	tranY = height/2 ; 
-	y = createVector(0.1,0.1,0.0);
+	y = createVector(y_init[0],y_init[1],y_init[2]);
 	ym1 = createVector(0,0,0);
 	for (var i=0; i < 3; i ++){
    		y = RungeKuttaStep(h,y) ; 
@@ -163,6 +164,28 @@ function LorentzAttractor() {
 
 	this.zoomOut = function() {
 		factor += 0.02 ; 
+	}
+	this.adjustRho = function(rho_new) {
+		rho = rho_new ; 
+	}
+	this.adjustSigma = function(sigma_new) {
+		sigma = sigma_new ; 
+	}
+	this.adjustBeta = function(beta_new) {
+		beta = beta_new ; 
+	}
+	this.resetY = function() {
+		y = createVector(y_init[0],y_init[1],y_init[2]);
+		sol_vec = [] ; 
+		for (var i=0; i < 3; i ++){
+	   		y = RungeKuttaStep(h,y) ; 
+	   		console.log(y);
+	   		var y_temp = createVector(y.x,y.y,y.z) ; 
+	   		sol_vec.push(y_temp) ; 
+ 		}	
+ 		rho = rho_init;
+ 		beta = beta_init;
+ 		sigma = sigma_init ;
 	}
 }
 
