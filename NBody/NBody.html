@@ -1,7 +1,11 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <script language="javascript" type="text/javascript" src="/libraries/p5.js"></script>
+  <script language="javascript" type="text/javascript" src="./../libraries/p5.js"></script>
+    <link href="./../css/bootstrap.min.css" rel="stylesheet">
+  <link href="./../css/main.css" rel="stylesheet">
+  <link href="./../css/slider.css" rel="stylesheet">
+  <link href="Nbody.css" rel="stylesheet">
   <!-- uncomment lines below to include extra p5 libraries -->
   <!--<script language="javascript" src="libraries/p5.dom.js"></script>-->
   <!--<script language="javascript" src="libraries/p5.sound.js"></script>-->
@@ -9,12 +13,24 @@
   <script language="javascript" type="text/javascript" src="NBodySim.js"></script>
   <script language="javascript" type="text/javascript" src="Slider.js"></script>
   <script language="javascript" type="text/javascript" src="Ball.js"></script>
+
   <!-- this line removes any default padding and style. you might only need one of these values set. -->
   <style> body {padding: 0; margin: 0;} </style>
 </head>
 
 <body>
-  
-  
+  <div class="text-center">
+  <div class="row">
+    <button class="btn btn-info" type="button" id="start-button">Start simulation!</button>  
+    <button class="btn btn-info" type="button" id="reset-button">Reset simulation</button>  
+
+    </div>
+    </div> 
+
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+   <script language="javascript" type="text/javascript" src="./../js/bootstrap-slider.js"></script>
+    <script language="javascript" type="text/javascript" src="main.js"></script>
+
 </body>
 </html>

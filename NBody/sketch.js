@@ -187,3 +187,16 @@ function HelperFunctions () {
     }
 }
 
+
+function NBodyDOM() {
+
+    this.start = function(){
+        start = true ; 
+    }
+
+    this.restart = function(){
+        sim.reset_y(y_init) ; 
+        start = false ;
+    }
+
+}
