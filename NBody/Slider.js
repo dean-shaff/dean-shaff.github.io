@@ -32,7 +32,8 @@ function Slider (x_pos,x_p_i,y_pos, val_low, val_high, size_x, name) {
         // console.log(this.x_pos, this.x_pos_init);
        fill(0);
        text(name, this.x_pos_init-(size_x/2.5), y_pos, this.x_pos_init);
-       text(this.getVal(),this.x_pos_init+this.size_x+padding_x, this.y_pos); 
+       // .toFixed() fixes the number of digits after the decimal.
+       text(this.getVal().toFixed(1),this.x_pos_init+this.size_x+padding_x, this.y_pos); 
        strokeWeight(2);
        stroke(0);
        line(this.x_pos_init, this.y_pos, this.x_pos_init+this.size_x, this.y_pos);

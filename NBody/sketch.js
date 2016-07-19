@@ -78,7 +78,7 @@ function setup() {
 function draw() {
 
 	// fill(255,150);
-    // rect(0,0,width,height);
+ //    rect(0,0,width,height);
     background(255);
     for (var i = 0; i < num_bodies; i++){
         y_init[4*i + 1] = sliders[2*i].getVal();
