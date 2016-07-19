@@ -2,6 +2,7 @@ var sim ;
 var num_bodies = 4 ;
 
 var balls = [] ;
+var vectors = [] ;
 var sliders = [] ; 
 var sliders_m = [] ;  // for the masses
 
@@ -32,10 +33,15 @@ function setup() {
     console.log(y_cur.length);
     for (var j=0; j < num_bodies; j++){
     	var xy = sim.get_xy(j); 
+        var vel = sim.get_vel(j) ;
+        console.log(vel);
     	var ball_j = new Ball(xy[0], xy[1], masses[j], masses[j]); 
+        var vec_j = new Vector(xy[0], xy[1], vel[0], vel[1]);
     	ball_j.render();
+        vec_j.render();
     	// var ball_j = new Ball(xy[0], xy[1], 20,20);//masses[j], masses[j]); 
     	balls.push(ball_j);
+        vectors.push(vec_j);
     	// console.log(balls[j].x, balls[j].y);
     }
 	// fill(255); 
@@ -94,9 +100,13 @@ function draw() {
     //println(sim.y);
     for (var j=0; j < num_bodies; j++){
         var xy = sim.get_xy(j);
+        var vel = sim.get_vel(j);
         // console.log(xy);
         balls[j].change_xy(xy[0],xy[1]);
+        vectors[j].change_xy(xy[0],xy[1]);
+        vectors[j].change_len(vel[0], vel[1]);
         balls[j].render();
+        vectors[j].render();
     }
     // fill(255);
     // rect(0,0,200,height);
@@ -124,12 +134,20 @@ function mousePressed() {
 	if (start == false ){
 		for (var i = 0; i < balls.length; i ++){
 			var ball_i = balls[i] ; 
+            var vec_i = vectors[i] ; 
 			if (ball_i.checkMouse()){
 				console.log("Ball clicked!");
 				ball_i.set_locked(true);
 			}else{
 				ball_i.set_locked(false);
 			}
+            if (vec_i.checkMouse()){
+                console.log("Vector clicked!") ; 
+                vec_i.set_locked(true);
+            }else{
+                vec_i.set_locked(false);
+            }
+
 		}
 	}
 }
@@ -137,23 +155,46 @@ function mousePressed() {
 function mouseDragged(){
 	for (var i=0; i < num_bodies; i++){
 		var ball_i = balls[i] ;
+        var vec_i = vectors[i];
 		var sx = sliders[2*i];
         var sy = sliders[2*i +1];
         var mi = sliders_m[i];
-		if (ball_i.get_locked() == true){
+		if (ball_i.get_locked()){
             ball_i.change_xy(mouseX, mouseY);
             var y_cur = sim.grab_y();
             y_cur[4*i] = mouseX;
             y_cur[4*i+2] = mouseY;
             sim.reset_y(y_cur);
         }
+
+        if (vec_i.get_locked()){
+            vec_i.change_len(mouseX - vec_i.x ,mouseY - vec_i.y);
+            sx.setVal(mouseX - vec_i.x); 
+            sy.setVal(mouseY - vec_i.y) ;
+            var y_cur = sim.grab_y();
+            y_cur[4*i + 1] = mouseX - vec_i.x; 
+            y_cur[4*i + 3] = mouseY - vec_i.y; 
+            sim.reset_y(y_cur) ; 
+        }
+
         else if (sx.checkMouse()){
+            var cur_vec_len = vec_i.get_len() ; 
             sx.setX(mouseX);
-            sx.render();
+            vec_i.change_len(sx.getVal(), cur_vec_len[1]);
+
+            var y_cur = sim.grab_y();
+            y_cur[4*i + 1] = sx.getVal();
+            sim.reset_y(y_cur)
         }
         else if (sy.checkMouse()){
+            var cur_vec_len = vec_i.get_len() ; 
             sy.setX(mouseX);
-            sy.render();
+            vec_i.change_len(cur_vec_len[0], sy.getVal());
+
+            var y_cur = sim.grab_y();
+            y_cur[4*i + 3] = sy.getVal();
+            sim.reset_y(y_cur)
+
         }
         else if (mi.checkMouse()){
             mi.setX(mouseX);

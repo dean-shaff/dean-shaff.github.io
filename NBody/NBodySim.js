@@ -74,6 +74,13 @@ function NBodySim (G, mass_array, y_init) {
         return xy;
     }
     
+    this.get_vel = function(body) {
+        var vel = [0.0, 0.0] ;
+        vel[0] = this.y[4*body + 1] ; 
+        vel[1] = this.y[4*body + 3] ;
+        return vel ;
+    }
+
     this.reset_y = function(y_new){
         this.y = y_new.slice(0);
         console.log(this.y);
