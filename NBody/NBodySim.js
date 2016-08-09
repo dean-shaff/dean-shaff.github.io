@@ -27,7 +27,6 @@ function NBodySim (G, mass_array, y_init) {
         body2 is the number of the second body 
         should be zero indexed. 
         */
-
         var x1 = y_cur[body1*4];  
         var x2 = y_cur[body2*4]; 
        	var y1 = y_cur[body1*4 + 2];

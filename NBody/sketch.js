@@ -205,6 +205,11 @@ function mouseDragged(){
 	}
 }
 
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
 function HelperFunctions () {
 
 	this.add_arrays = function (array1, array2){
