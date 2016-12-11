@@ -1,0 +1,27 @@
+.transparent {
+	background-color:rgba(255,255,255,0.0);
+}
+
+.no-border {
+	border:0px;
+	font-size:13px;
+	text-transform:none;
+}
+
+.no-format{ 
+	text-decoration:none;
+	margin-top:0;
+	font-size: 1.5em;
+	line-height: 1.6;
+	font-weight: 400; 
+	font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  	color: #222; 
+}
+
+.pad{
+	padding:5px;
+}
+
+a:hover{
+	color:#ce0e25;
+}

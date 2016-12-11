@@ -5,8 +5,12 @@ var ym1 ;
 var sigma = 10.0; var sigma_init = 10.0 ; 
 var rho = 28.0 ; var rho_init = 28.0 ; 
 var beta = 8.0/3.0 ; var beta_init = 8.0/3.0; 
-var h = 0.007; 
-var factor = 0.11 ; 
+
+var alpha = 0.1 ; var alpha_init = 0.14 ; 
+var gamma = 0.2715 ; var gamma_init = 0.1 ;
+var h = 0.004; 
+// var factor = 0.11 ; 
+var factor = 0.01;
 var upto = 700 ; 
 var tranX ; 
 var tranY ; 
@@ -18,8 +22,10 @@ var CoM ;
 var CoM_rotate ; 
 var delayCoM = 500 ;
 var counter = 0 ;
-var y_init = [0.1, 0.1, 0.0] ; 
-
+// var y_init = [0.1, 0.1, 0.0] ; 
+var y_init = [0.1,0.1,0.1];
+var f_prime = f_rabinovich ;
+// console.log(f_prime == f_lorenz); console.log(f_prime == f_rabinovich)
 function setup() {
 	createCanvas(windowWidth, windowHeight);//,WEBGL) ; 
 	tranX = width / 2;
@@ -31,7 +37,7 @@ function setup() {
 	y = createVector(y_init[0],y_init[1],y_init[2]);
 	ym1 = createVector(0,0,0);
 	for (var i=0; i < 3; i ++){
-   		y = RungeKuttaStep(h,y) ; 
+   		y = RungeKuttaStep(h,y,f_prime) ; 
    		console.log(y);
    		var y_temp = createVector(y.x,y.y,y.z) ; 
    		sol_vec.push(y_temp) ; 
@@ -49,7 +55,7 @@ function draw() {
 	// background(0) ; 
 	if (! pause){
 		ym1 = sol_vec[sol_vec.length - 1] ; 
-		y = RungeKuttaStep(h, y) ; 
+		y = RungeKuttaStep(h, y,f_prime) ; 
 		var y_temp = createVector(y.x, y.y, y.z);
 		sol_vec.push(y_temp) ; 
 		if (sol_vec.length > upto){
@@ -115,7 +121,7 @@ function calcCenterOfMass(vector){
 	return CoM ;
 }
 
-function f(y_n){
+function f_lorenz(y_n){
 	//working 
 	var x = sigma*(y_n.y - y_n.x);
 	var y = y_n.x*(rho - y_n.z) - y_n.y;
@@ -124,12 +130,22 @@ function f(y_n){
   	return f ;
 }
 
-function RungeKuttaStep(h, y_n) {
+function f_rabinovich(y_n){
+
+	var x = y_n.y*(y_n.z - 1. + Math.pow(y_n.x,2)) + gamma*y_n.x ; 
+	var y = y_n.x*((3.*y_n.z) + 1. - Math.pow(y_n.x,2)) + gamma*y_n.y ; 
+	var z = -2.*y_n.z * (alpha + y_n.x*y_n.y) ;
+	var f = createVector(x,y,z) ; 
+	return f ;
+
+}	
+
+function RungeKuttaStep(h, y_n, callback) {
 	//working 
-	var k1 = f(y_n);
-	var k2 = f(y_n.add(k1.mult(h/2)));
-	var k3 = f(y_n.add(k2.mult(h/2)));
-	var k4 = f(y_n.add(k3.mult(h)));
+	var k1 = callback(y_n);
+	var k2 = callback(y_n.add(k1.mult(h/2)));
+	var k3 = callback(y_n.add(k2.mult(h/2)));
+	var k4 = callback(y_n.add(k3.mult(h)));
 	var y_np1 = y_n.add((k1.add((k2.mult(2))).add((k3.mult(2))).add(k4)).mult(h/6.));
 	
 	// console.log(y_np1); 
@@ -174,11 +190,17 @@ function LorentzAttractor() {
 	this.adjustBeta = function(beta_new) {
 		beta = beta_new ; 
 	}
+	this.adjustAlpha = function(alpha_new){
+		alpha = alpha_new ; 
+	}
+	this.adjustGamma = function(gamma_new){
+		gamma = gamma_new;
+	}
 	this.resetY = function() {
 		y = createVector(y_init[0],y_init[1],y_init[2]);
 		sol_vec = [] ; 
 		for (var i=0; i < 3; i ++){
-	   		y = RungeKuttaStep(h,y) ; 
+	   		y = RungeKuttaStep(h,y,f_prime) ; 
 	   		console.log(y);
 	   		var y_temp = createVector(y.x,y.y,y.z) ; 
 	   		sol_vec.push(y_temp) ; 

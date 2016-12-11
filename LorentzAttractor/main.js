@@ -39,5 +39,13 @@ $('#slider-rho').slider().on('slide', function(ev){
 	lorentz.adjustRho(ev.value) ; 
 	$("#rhoVal").text(ev.value.toFixed(2)) ;
 });
+$('#slider-alpha').slider().on('slide', function(ev){
+	lorentz.adjustAlpha(ev.value) ; 
+	$("#alphaVal").text(ev.value.toFixed(2)) ;
+});
+$('#slider-gamma').slider().on('slide', function(ev){
+	lorentz.adjustGamma(ev.value) ; 
+	$("#gammaVal").text(ev.value.toFixed(2)) ;
+});
 
 
