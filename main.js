@@ -6,7 +6,8 @@ var hrefs = [
 		"./LorentzAttractor/LorentzAttractor.html",
 		"https://github.com/dean-shaff",
 		"./dean_shaff_cv.pdf",
-		"http://deanshaff.blogspot.com/"
+		"http://deanshaff.blogspot.com/",
+		"./poems.html"
 ];
 
 var buttonText = [
@@ -14,7 +15,8 @@ var buttonText = [
 	"LorentzAttractor",
 	"GitHub",
 	"CV",
-	"Blog"
+	"Blog",
+	"Poems"
 ];
 
 $(document).ready(function(){
