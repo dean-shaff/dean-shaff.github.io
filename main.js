@@ -4,6 +4,7 @@
 var hrefs = [
 		"./NBody/NBody.html", 
 		"./LorentzAttractor/LorentzAttractor.html",
+		"https://planet-tracker.herokuapp.com/",
 		"https://github.com/dean-shaff",
 		"./dean_shaff_cv.pdf",
 		"http://deanshaff.blogspot.com/",
@@ -13,6 +14,7 @@ var hrefs = [
 var buttonText = [
 	"NBodySimulator",
 	"LorentzAttractor",
+	"Planet Tracker",
 	"GitHub",
 	"CV",
 	"Blog",
