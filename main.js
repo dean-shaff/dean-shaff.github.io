@@ -1,14 +1,15 @@
-// main.js 
+// main.js
 // Just for formatting the main page.
 
 var hrefs = [
-		"./NBody/NBody.html", 
+		"./NBody/NBody.html",
 		"./LorentzAttractor/LorentzAttractor.html",
 		"https://planet-tracker.herokuapp.com/",
 		"https://github.com/dean-shaff",
 		"./dean_shaff_cv.pdf",
-		"http://deanshaff.blogspot.com/",
-		"./poems.html"
+		"https://dean-shaff.github.io/blog/",
+		"./poems.html",
+		"https://ephem-api.herokuapp.com/"
 ];
 
 var buttonText = [
@@ -18,7 +19,8 @@ var buttonText = [
 	"GitHub",
 	"CV",
 	"Blog",
-	"Poems"
+	"Poems",
+	"Ephemerides API"
 ];
 
 $(document).ready(function(){
@@ -29,7 +31,7 @@ $(document).ready(function(){
 			// 	</div></div>".format(hrefs[i], buttonText[i]));
 			// var ele = $("<a href='{}' class='button no-border'>{}</a>".format(hrefs[i], buttonText[i]));
 			var ele = $("<a class='no-format pad' href='{}'>{} </a>".format(hrefs[i], buttonText[i]));
-			return ele; 
+			return ele;
 		});
 	}
 });
